@@ -15,3 +15,5 @@ To Run:
     use "npm i" after initial clone
 
     npm start
+
+In Queue: AR view
