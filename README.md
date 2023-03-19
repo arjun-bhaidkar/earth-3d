@@ -1,4 +1,4 @@
-3D Earth Sphere
+3D Earth Sphere with AR supoort
 
 Demo : https://earth-3d.web.app
 
@@ -16,4 +16,3 @@ To Run:
 
     npm start
 
-In Queue: AR view
