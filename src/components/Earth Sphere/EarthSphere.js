@@ -4,14 +4,19 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import EarthSkin from '../../assets/images/earthskin.jpg';
 import { gsap } from 'gsap';
+import { getEarthModel } from '../../utils/earthModel';
+import { getDeviceWidthAndHeight, isRunningOnMobileDevice } from '../../utils/domUtils';
 
 function EarthSphere() {
   const mountRef = useRef(null);
   const NAVBAR_HEIGHT = 32;
+  const Earth = getEarthModel();
+
+  const _deviceSize = getDeviceWidthAndHeight();
 
   const screenSize = {
-    height: window.innerHeight - NAVBAR_HEIGHT,
-    width: window.innerWidth
+    height: _deviceSize.height - NAVBAR_HEIGHT,
+    width: _deviceSize.width
   };
 
   const popOutEarthAnimation = (mesh) => {
@@ -20,30 +25,19 @@ function EarthSphere() {
   }
 
   const adjustCameraPosition = (camera,screenSize) =>{
-    if(screenSize.height < 900 && screenSize.width < 400){
+    if(isRunningOnMobileDevice()){
       // for mobile screens
-      camera.position.z = 20;
+      camera.position.z = 15;
     } else { 
       // for other screens
-      camera.position.z = 15;
+      camera.position.z = 14;
     }
   }
 
   // create a scene
   const scene = new THREE.Scene()
 
-  // creating earct sphere
-  const geometry = new THREE.SphereGeometry(3, 64, 64);
-  const material = new THREE.MeshPhongMaterial({
-    metalness: 0,
-    roughness: 0.2,
-    shininess: 50,
-    map: new THREE.TextureLoader().load(EarthSkin)
-  });
-
-  const mesh = new THREE.Mesh(geometry, material);
-
-  scene.add(mesh);
+  scene.add(Earth);
 
   // lights
   const light = new THREE.PointLight(0xffffff, 1, 100);
@@ -65,7 +59,7 @@ function EarthSphere() {
   renderer.setSize(screenSize.width, screenSize.height);
   renderer.setPixelRatio(3);
   renderer.render(scene, camera);
-  popOutEarthAnimation(mesh)
+  popOutEarthAnimation(Earth)
 
   // orbit control
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -84,17 +78,18 @@ function EarthSphere() {
   loop();
 
   useEffect(() => {
-    mountRef.current.appendChild(renderer.domElement);
+    mountRef?.current?.appendChild(renderer.domElement);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    return () => mountRef.current.removeChild(renderer.domElement);
+    return () => mountRef?.current?.removeChild(renderer.domElement);
   },[]);
 
   useEffect(() => {
     function handleResize() {
+      const _deviceSize = getDeviceWidthAndHeight();
       // eslint-disable-next-line no-const-assign
-      screenSize.height = window.innerHeight - NAVBAR_HEIGHT;
-      screenSize.width = window.innerWidth;
+      screenSize.height = _deviceSize.height - NAVBAR_HEIGHT;
+      screenSize.width = _deviceSize.width;
 
       adjustCameraPosition(camera, screenSize);
 
