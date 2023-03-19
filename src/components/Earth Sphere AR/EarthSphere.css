@@ -1,0 +1,16 @@
+.earth-sphere {
+    height: 100vh;
+    width: 100vh;
+}
+
+body {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+/* Hide canvas by default, it is not needed outside immersive-ar */
+canvas {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
