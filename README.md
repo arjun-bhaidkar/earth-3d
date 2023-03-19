@@ -1,4 +1,4 @@
-3D Earth Sphere with AR supoort
+3D Earth Sphere with AR support
 
 Demo : https://earth-3d.web.app
 
