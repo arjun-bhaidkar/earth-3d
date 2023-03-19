@@ -7,11 +7,16 @@ function Navbar({
 }) {
   const onClickSwitchToAR = () => {
     browserHasImmersiveArCompatibility().then(isImmersiveArSupported => {
-      if (isImmersiveArSupported) {
-        setIsARMode(true);
+      if(!isInARMode){
+        if (isImmersiveArSupported) {
+          setIsARMode(true);
+        } else {
+          alert("😢 Oh no! AR is not supported by this device/browser");
+        }
       } else {
-        alert("😢 Oh no! AR is not supported by this device/browser");
+        setIsARMode(false);
       }
+   
     })
 
   }
